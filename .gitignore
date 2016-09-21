@@ -1,8 +1,16 @@
 # Mac OS X hidden files
 .DS_Store
 
+#IDEA
+/.idea
+
 # Vim swap files
 .*.sw?
+
+#Node
+**/node_modules
+npm-debug.*
+server/build
 
 # Pow and Powder config
 /.pow*

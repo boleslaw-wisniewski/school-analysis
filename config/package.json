@@ -1,0 +1,19 @@
+{
+  "name": "school-analysis-config",
+  "main": "index.js",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "ip": "^1.1.2",
+    "yargs": "^5.0.0"
+  },
+  "scripts": {
+    "build": "babel -w app/ -d build -s",
+    "watch": "babel . --out-dir dist --source-maps --watch",
+    "start": "node build/index.js"
+  },
+  "babel": {
+    "presets": [
+      "es2015-node5"
+    ]
+  }
+}
