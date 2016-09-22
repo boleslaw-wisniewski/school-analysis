@@ -51,6 +51,7 @@ config.dir_client = `${config.path_base}/client/src`;
 config.dir_client_app = `${config.dir_client}/app`;
 config.dir_dist = `${config.path_base}/dist`;
 config.dir_test = `${config.path_base}/tests`;
+config.dir_data = `${config.path_base}/data`;
 
 /************************************************
  -------------------------------------------------
@@ -84,15 +85,20 @@ function base () {
 }
 
 config.utils_paths = {
-    base   : base,
-    client : base.bind(null, config.dir_client),
-    client_app : base.bind(null, config.dir_client_app),
-    dist   : base.bind(null, config.dir_dist)
-}
+  base   : base,
+  client : base.bind(null, config.dir_client),
+  client_app : base.bind(null, config.dir_client_app),
+  dist   : base.bind(null, config.dir_dist),
+  data : base.bind(null, config.dir_data)
+};
 
 config.server = {
   url: 'http://localhost',
   port: 9001
+};
+
+config.data = {
+  db: 'nyc.db.json'
 };
 
 // ========================================================
