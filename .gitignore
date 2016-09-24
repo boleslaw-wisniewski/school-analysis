@@ -1,3 +1,6 @@
+# project specific
+*.db.json
+
 # Mac OS X hidden files
 .DS_Store
 
@@ -10,7 +13,6 @@
 #Node
 **/node_modules
 npm-debug.*
-server/build
 
 # Pow and Powder config
 /.pow*
