@@ -1,0 +1,9 @@
+{
+  "name": "school-analysis-shared",
+  "babel": {
+    "presets": [
+      "es2015-node6"
+    ]
+  },
+  "devDependencies": {}
+}

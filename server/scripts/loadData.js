@@ -29,8 +29,8 @@ function getPerformance(list, entry) {
   return list;
 }
 
-const perfKey = 'english';
-const performance = [];//require(`/Users/bolek.wisniewski/Downloads/school data/performance/${perfKey}.json`);
+const perfKey = 'math';
+const performance = require(`/Users/bolek.wisniewski/Downloads/school data/performance/${perfKey}.json`);
 performance.forEach(entry => {
   const key = `${entry.DBN}-${entry.Year}`;
   let school = schoolsByDBNAndYear[key];
@@ -76,7 +76,7 @@ performance.forEach(entry => {
 });
 
 const classSizeYear = 2012;
-const classsize = require(`/Users/bolek.wisniewski/Downloads/school data/class size/classsize-${classSizeYear}.json`);
+const classsize = []; //require(`/Users/bolek.wisniewski/Downloads/school data/class size/classsize-${classSizeYear}.json`);
 classsize.forEach(entry => {
   const DBN = printf('%02d', entry.CSD) + entry['SCHOOL CODE'];
   const key = `${DBN}-${classSizeYear}`;

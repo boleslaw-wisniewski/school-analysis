@@ -11,13 +11,14 @@
     "express": "^4.14.0",
     "lodash": "^4.16.1",
     "printf": "^0.2.5",
+    "require-dir": "^0.3.0",
     "source-map-support": "^0.4.0",
     "yargs": "^5.0.0"
   },
   "scripts": {
     "build": "babel -w app/ -d build -s",
     "watch": "babel . --out-dir dist --source-maps --watch",
-    "start": "babel-node --debug --presets es2015-node6 app/* --source-maps --wach",
+    "start": "babel-node --debug --presets es2015-node6 app/* --source-maps --watch",
     "loadData": "babel-node --presets es2015-node6 scripts/loadData.js"
   },
   "babel": {
