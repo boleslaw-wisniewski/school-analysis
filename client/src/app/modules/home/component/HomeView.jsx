@@ -1,7 +1,7 @@
 import React from 'react';
 
 import SchoolSuggestionsContainer from '../../school/component/SchoolSuggestionsContainer';
-import SchoolDetailsContainer from '../../school/component/SchoolDetailsContainer.jsx';
+import SchoolDetailsContainer from '../../school/component/school-details/SchoolDetailsContainer.jsx';
 
 import './home.scss';
 

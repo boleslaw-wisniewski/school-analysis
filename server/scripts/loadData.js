@@ -1,11 +1,12 @@
 import fs  from 'fs';
 import printf from 'printf';
-import { flatMap, keyBy, omitBy, pick, pickBy } from 'lodash';
+import { flatMap, keyBy, groupBy, omitBy, pick, pickBy } from 'lodash';
 
 import schools from '../../data/nyc.db.json';
 import config from '../../config';
 
 const schoolsByDBNAndYear = keyBy(schools, (school) => `${school.DBN}-${school.year}`);
+const schoolsByDBN = groupBy(schools, 'DBN');
 
 function getPerformance(list, entry) {
   if (!list) {
@@ -30,7 +31,7 @@ function getPerformance(list, entry) {
 }
 
 const perfKey = 'math';
-const performance = require(`/Users/bolek.wisniewski/Downloads/school data/performance/${perfKey}.json`);
+const performance = []; //require(`/Users/bolek.wisniewski/Downloads/school data/performance/${perfKey}.json`);
 performance.forEach(entry => {
   const key = `${entry.DBN}-${entry.Year}`;
   let school = schoolsByDBNAndYear[key];
@@ -111,6 +112,25 @@ classsize.forEach(entry => {
 
 });
 
+
+const details = [];//require(`/Users/bolek.wisniewski/Downloads/school data/school-details.json`);
+details.forEach(entry => {
+  const DBN = entry['ATS System Code'];
+  const schoolRecords = schoolsByDBN[DBN];
+  if (schoolRecords) {
+    schoolRecords.forEach(school => {
+      school.gradeType = entry['Location Category Description'].toLowerCase();
+      school.opened = entry['Open Date'].replace(/\s+/g, " ");
+      school.address = {
+        street: entry['Primary Address'].toLowerCase().replace(/\s+/g, " "),
+        city: entry['City'].toLowerCase(),
+        zip: entry['Zip']
+      };
+      const code = entry['Geographical District Code'];
+      school.district = code < 10 ? `0${code}` : code+"";
+    });
+  }
+});
 
 const dataDir = config.utils_paths.data();
 const exportFile = `${dataDir}/${config.data.db}`;

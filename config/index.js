@@ -53,7 +53,6 @@ const config = {
 
 config.dir_client = `${config.path_base}/client/src`;
 config.dir_client_app = `${config.dir_client}/app`;
-config.dir_client_styles = `${config.dir_client_app}/styles`;
 config.dir_dist = `${config.path_base}/dist`;
 config.dir_test = `${config.path_base}/tests`;
 config.dir_data = `${config.path_base}/data`;
@@ -93,7 +92,6 @@ config.utils_paths = {
   base   : base,
   client : base.bind(null, config.dir_client),
   client_app : base.bind(null, config.dir_client_app),
-  client_styles: base.bind(null, config.dir_client_styles),
   dist   : base.bind(null, config.dir_dist),
   data : base.bind(null, config.dir_data)
 };

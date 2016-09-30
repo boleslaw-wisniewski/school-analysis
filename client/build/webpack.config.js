@@ -19,7 +19,8 @@ const webpackConfig = {
       root       : paths.client(),
       extensions : ['', '.js', '.jsx', '.json'],
       alias: {
-        styles: paths.client_styles()
+        styles: paths.client_app('styles'),
+        modules: paths.client_app('modules')
       }
     },
     module : {}
@@ -143,7 +144,7 @@ webpackConfig.module.loaders.push({
 })
 
 webpackConfig.sassLoader = {
-    includePaths : paths.client('styles')
+    includePaths : paths.client_app('styles')
 }
 
 webpackConfig.postcss = [

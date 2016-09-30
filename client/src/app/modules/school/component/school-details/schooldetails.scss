@@ -1,0 +1,34 @@
+@import "../../../../styles/variables";
+
+.school-details-container {
+
+}
+
+.school-detail-remove {
+  float: right;
+  display: inline;
+}
+
+.school-detail-general-info {
+  margin-bottom: 30px;
+}
+
+.school-detail-demographics {
+  display:inline-flex;
+  flex-wrap: wrap;
+}
+
+.school-detail-performance {
+  display:inline-flex;
+  flex-wrap: wrap;
+}
+.school-detail {
+  .panel-subtitle {
+    color: darkgrey;
+  }
+}
+
+.school-detail-type {
+  text-transform: capitalize;
+  margin-right: 8px;
+}
