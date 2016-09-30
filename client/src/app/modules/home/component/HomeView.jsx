@@ -1,14 +1,21 @@
 import React from 'react';
 
+import SchoolSuggestionsContainer from '../../school/component/SchoolSuggestionsContainer';
+import SchoolDetailsContainer from '../../school/component/SchoolDetailsContainer.jsx';
+
 import './home.scss';
 
 class HomeView extends React.Component {
 
   render() {
     return (
-      <div id="home">
-        <h1>NYC school comparisons</h1>
-        <p className="lead">Use this document as a way to quickly start any new project. All you get is this text and a mostly barebones HTML document.</p>
+      <div className="home-screen">
+          <h1>NYC school comparisons!</h1>
+          <p className="lead">Lorem ipsum dolor sit amet, rebum persequeris contentiones no nam. Dictas molestiae vim et, eum cu duis novum civibus, et sale simul dolores eos. Vis eligendi abhorreant te, ei vis tempor conceptam vituperatoribus. In integre equidem delenit est.</p>
+
+        <SchoolSuggestionsContainer />
+
+        <SchoolDetailsContainer />
       </div>
     )}
 }

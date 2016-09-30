@@ -8,25 +8,33 @@ const debug = require('debug')('app:webpack:config')
 
 const paths = config.utils_paths
 const __DEV__ = config.globals.__DEV__
-const __PROD__ = config.globals.__PROD__
 const __TEST__ = config.globals.__TEST__
 
-debug('Creating configuration.')
+debug('Creating configuration.', `dev: ${__DEV__}`, `test: ${__TEST__}`)
 const webpackConfig = {
     name    : 'client',
     target  : 'web',
     devtool : config.compiler_devtool,
     resolve : {
-        root       : paths.client(),
-        extensions : ['', '.js', '.jsx', '.json']
+      root       : paths.client(),
+      extensions : ['', '.js', '.jsx', '.json'],
+      alias: {
+        styles: paths.client_styles()
+      }
     },
     module : {}
 }
 // ------------------------------------
 // Entry Points
 // ------------------------------------
+const APP_ENTRY = paths.client_app('index.js');
+const app = [APP_ENTRY];
+if (__DEV__) {
+  app.concat(`webpack-dev-server/client?http://${config.server_host}:${config.server_port}`); // WebpackDevServer host and port
+  app.concat('webpack/hot/only-dev-server'); // "only" prevents reload on syntax errors)
+}
 webpackConfig.entry = {
-    app : paths.client_app('index.js'),
+    app,
     vendor : config.compiler_vendors
 }
 
@@ -54,11 +62,17 @@ webpackConfig.plugins = [
             collapseWhitespace : true
         }
     }),
-  new webpack.ProvidePlugin({
-    'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-  })
+    new webpack.ProvidePlugin({
+      "React": "react",
+    }),
 ];
-if (__PROD__) {
+if (__DEV__) {
+  debug('Enable plugins for live development (HMR).')
+  webpackConfig.plugins.push(
+    new webpack.HotModuleReplacementPlugin()
+  )
+}
+if (!__TEST__ && !__DEV__) {
     debug('Enable plugins for production (OccurenceOrder, Dedupe & UglifyJS).')
     webpackConfig.plugins.push(
         new webpack.optimize.OccurrenceOrderPlugin(),
@@ -76,9 +90,7 @@ if (__PROD__) {
 // Don't split bundles during testing, since we only want import one bundle
 if (!__TEST__) {
     webpackConfig.plugins.push(
-        new webpack.optimize.CommonsChunkPlugin({
-            names : ['vendor']
-        })
+        new webpack.optimize.CommonsChunkPlugin('vendor', `vendor.[${config.compiler_hash_type}].js`)
     )
 }
 
@@ -86,12 +98,19 @@ if (!__TEST__) {
 // Loaders
 // ------------------------------------
 // JavaScript / JSON
+const preset_url = config.compiler_babel.presets.map(preset => `presets[]=${preset}`).join(',');
 webpackConfig.module.loaders = [{
-    test    : /\.(js|jsx)$/,
+    test    : /\.(js)$/,
     exclude : /node_modules/,
     loader  : 'babel',
     query   : config.compiler_babel
-}, {
+  },
+  {
+    test    : /\.(jsx)$/,
+    exclude : /node_modules/,
+    loaders  : ['react-hot', `babel?${preset_url}`]
+  },
+  {
     test   : /\.json$/,
     loader : 'json'
 }]
@@ -182,14 +201,15 @@ if (!__DEV__) {
 }
 if (__DEV__) {
     webpackConfig.devServer = {
-        port: 3000,
-        host: '0.0.0.0',
+        port: config.server_port,
+        host: config.server_host,
         proxy: {
           '/api/**': {
               target: `${config.server.url}:${config.server.port}`,
               secure: false,
           }
         },
+        hot: true,
         stats: {
             hash: false,
             version: false,

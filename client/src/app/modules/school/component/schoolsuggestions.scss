@@ -1,0 +1,42 @@
+@import "../../../styles/variables.scss";
+
+div.school-suggestions-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 80px;
+
+  .react-autosuggest__container {
+    position: absolute;
+
+    @media (max-width: $screen-xs-min) {
+      width: 80%;
+    }
+
+    @media (min-width: $screen-xs-min) {
+      width: $screen-xs-min * 0.8;
+    }
+
+    @media (min-width: $screen-sm-min) {
+      width: $screen-sm-min * 0.8;
+    }
+    @media (min-width: $screen-md-min) {
+      width: $screen-md-min * 0.8;
+    }
+  }
+
+  .react-autosuggest__container--open .react-autosuggest__suggestions-container {
+    height: 200px;
+    overflow: auto;
+    background-color: white;
+  }
+
+  input {
+    font-size: 16px;
+    line-height: 24px;
+    padding-left: 5px;
+
+    &:focus{
+      outline: none;
+    }
+  }
+}

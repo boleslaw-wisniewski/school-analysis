@@ -25,7 +25,7 @@ const nameAndDbn = schools.map(school => assign({}, {
   schoolName: school.schoolName
 }));
 
-export const schoolNames = uniqBy(nameAndDbn, (school) => school.DBN);
+const schoolNames = uniqBy(nameAndDbn, (school) => school.DBN);
 
 const api = {
   schools,

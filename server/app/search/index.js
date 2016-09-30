@@ -16,10 +16,6 @@ export function search(schools, criteria) {
   return criteria.reduce((result, criterion) => {
 
     const fieldReducer = CRITERIA_FIELD_REDUCER[criterion.type];
-    if (!fieldReducer) {
-      console.log('unknown field reducer', criterion.type);
-      return result;
-    }
     return result.filter(school => criterion.filter(fieldReducer(school)));
 
   }, schools)

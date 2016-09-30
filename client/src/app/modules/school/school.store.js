@@ -1,24 +1,40 @@
 import { createAction, handleActions } from 'redux-actions';
 
-import { initialStatus, STATUS } from '../../store';
+import { initialStatus, STATUS } from '../../store/StoreStatus';
 
-const getSchools  = createAction('school-analysis/schools/GET');
-const receiveSchools   = createAction('school-analysis/schools/RECEIVED', (schools) => schools);
+const fetchSchoolsAction  = createAction('school-analysis/schools/FETCH');
+const receiveSchoolsAction = createAction('school-analysis/schools/RECEIVED');
+const selectSchoolAction = createAction('school-analysis/schools/SELECTED');
 
-const initialState = { schools: [], status: initialStatus };
+const initialState = { schoolNames: [], status: initialStatus, selected: [] };
 
 const reducer = handleActions({
 
-  getSchools: (state, action) => ({
-    status: STATUS.BUSY
-  }),
+  [fetchSchoolsAction]: (state, action) => Object.assign({}, state, { status: STATUS.BUSY }),
 
-  receiveSchools: (state, action) => ({
-    schools: action.payload,
-    status: STATUS.READY
-  })
+  [receiveSchoolsAction]: (state, action) => {
+    return Object.assign({}, state, {
+      schoolNames: action.payload,
+      status: STATUS.READY
+    });
+  },
+
+  [selectSchoolAction]: (state, action) => {
+    return Object.assign({}, state, {
+      selected: state.selected.concat(action.payload)
+    });
+  }
+
 }, initialState);
 
-export default { reducer };
+function getSchoolNames(schools) {
+  return schools.schoolNames;
+}
 
-export { getSchools, receiveSchools };
+function getSelectedSchools(schools) {
+  return schools.selected;
+}
+
+export default reducer;
+
+export { fetchSchoolsAction, receiveSchoolsAction, selectSchoolAction, getSchoolNames, getSelectedSchools };

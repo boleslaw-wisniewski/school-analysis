@@ -10,6 +10,8 @@ import Shell from './layouts/shell/ShellView';
 import Home from './modules/home/component/HomeView';
 import Search from './modules/search/component/SearchView';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 if (__DEV__) {
   if (window.devToolsExtension) {
     window.devToolsExtension.open()
