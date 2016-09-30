@@ -21,7 +21,8 @@ const reducer = handleActions({
 
   [selectSchoolAction]: (state, action) => {
     return Object.assign({}, state, {
-      selected: state.selected.concat(action.payload)
+      selected: state.selected.concat(action.payload),
+      status: STATUS.READY
     });
   }
 

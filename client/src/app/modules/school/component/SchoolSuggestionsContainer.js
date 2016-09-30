@@ -7,7 +7,7 @@ import './schoolsuggestions.scss';
 
 import { getSchoolNames, fetchSchoolsAction, receiveSchoolsAction, selectSchoolAction } from '../school.store';
 import { isEmpty } from '../../../store/StoreStatus';
-import { fetchSchools } from '../school.service';
+import { fetchSchools, fetchSchoolByDBN } from '../school.service';
 
 const initialState = {
   inputValue: '',
@@ -106,7 +106,11 @@ function connectDispatch(dispatch) {
         .then(schoolNames => dispatch(receiveSchoolsAction(schoolNames)));
     },
 
-    selectSchool: (school) => dispatch(selectSchoolAction(school))
+    selectSchool: (school) => {
+      dispatch(fetchSchoolsAction());
+      fetchSchoolByDBN(school.DBN)
+        .then(school => dispatch(selectSchoolAction(school)));
+    }
 
   }
 }

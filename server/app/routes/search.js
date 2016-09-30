@@ -1,4 +1,4 @@
-import { schoolNames, schools } from '../schools.cache';
+import { schoolNames, schools, schoolByDBN } from '../schools.cache';
 import { search, CRITERIA_TYPE } from '../search';
 import Criterion from '../../../shared/search/Citerion';
 
@@ -18,6 +18,10 @@ function setupEndpoint(app, acl) {
 
   app.get('/api/search/names', function (req, res) {
     res.send(schoolNames);
+  });
+
+  app.get('/api/search/dbn/:dbn', function (req, res) {
+    res.send(schoolByDBN[req.params.dbn]);
   });
 
 }

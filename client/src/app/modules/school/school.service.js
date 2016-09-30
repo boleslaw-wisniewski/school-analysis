@@ -5,8 +5,13 @@ function fetchSchools() {
     .then(result => result.data || []);
 }
 
+function fetchSchoolByDBN(dbn) {
+  return http.get(`/api/search/dbn/${dbn}`)
+    .then(result => result.data || []);
+}
+
 export {
-  fetchSchools
+  fetchSchools, fetchSchoolByDBN
 }
 
 
