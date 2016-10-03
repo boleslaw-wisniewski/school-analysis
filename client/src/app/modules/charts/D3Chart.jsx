@@ -9,7 +9,8 @@ class D3Chart extends Component {
   }
 
   propTypes: {
-    Chart: PropTypes.object
+    Chart: PropTypes.object,
+    chartOpts: PropTypes.object
   };
 
   shouldComponentUpdate() {
@@ -17,10 +18,10 @@ class D3Chart extends Component {
   }
 
   componentDidMount() {
-    const { Chart } = this.props;
+    const { Chart, data, chartOpts } = this.props;
     this._isMounted = true;
 
-    this._chart = new Chart(this._ele);
+    this._chart = new Chart(this._ele, data, chartOpts);
     this._chart.render();
   }
 

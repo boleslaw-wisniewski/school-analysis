@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-
+import { has, keyBy, uniq } from 'lodash';
 import D3Chart from 'modules/charts/D3Chart';
 import demoGraphicPieChart from 'modules/charts/demographic/PieChart';
 import performanceBarChart from 'modules/charts/performance/BarChart';
@@ -19,6 +19,40 @@ class SchoolDetails extends Component {
         <span>{address.city}</span><span>, {address.zip}</span>
       </div>
     );
+  }
+
+  renderPerformance() {
+    if (!this.props.performance) {
+      return;
+    }
+
+    const { performance: { english, math } } = this.props;
+    let englishData = {}, mathData = {};
+    if (has(english, 'nonDisabled.length') && english.nonDisabled.length > 0) {
+      englishData = keyBy(english.nonDisabled, (d) => d.grade);
+    } else if (has(english, 'total.length') && english.total.length > 0) {
+      englishData = keyBy(english.total, (d) => d.grade);
+    }
+    if (has(math, 'nonDisabled.length') && math.nonDisabled.length > 0) {
+      mathData = keyBy(math.nonDisabled, (d) => d.grade);
+    } else if (has(math, 'total.length') && math.total.length > 0) {
+      mathData = keyBy(math.total, (d) => d.grade);
+    }
+
+    const keys = uniq(Object.keys(englishData).concat(Object.keys(mathData)));
+    const data = keys.map(grade => ({
+      grade,
+      math: mathData[grade] || [],
+      english: englishData[grade] || []
+    }));
+
+    const opts = { width: 200, height: 50 };
+    return data.map(d => {
+      return (
+        <D3Chart key={`performance-chart-${d.grade}`}
+                 Chart={performanceBarChart} data={d} chartOpts={ opts } />
+      )
+    });
   }
 
   removeSchool = () => {
@@ -61,12 +95,7 @@ class SchoolDetails extends Component {
           <div className="col-lg-5">
             <h5>Performance</h5>
             <div className="school-detail-performance">
-              <D3Chart Chart={performanceBarChart}/>
-              <D3Chart Chart={performanceBarChart}/>
-              <D3Chart Chart={performanceBarChart}/>
-              <D3Chart Chart={performanceBarChart}/>
-              <D3Chart Chart={performanceBarChart}/>
-              <D3Chart Chart={performanceBarChart}/>
+              {this.renderPerformance()}
             </div>
           </div>
         </div>
