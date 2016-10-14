@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+
+import { getStarredSchools } from '../../modules/school/school.store';
 
 import './shell.scss';
 
 class Shell extends React.Component {
 
   render() {
-
-    console.log('location', this.props.location);
-    console.log('route', this.props.route);
 
     return (
     <div id="school-analysis">
@@ -27,6 +27,12 @@ class Shell extends React.Component {
             <ul className="nav navbar-nav">
               <li><Link to="/home" activeClassName="active">Home</Link></li>
               <li><Link to="/search" activeClassName="active">Search</Link></li>
+              <li><Link to="/starred" activeClassName="active">
+                <div className="favorites">
+                  <span>Favorites</span>
+                  <span className="favorites-count">{this.props.getStarCount()}</span>
+                </div>
+              </Link></li>
             </ul>
           </div>
         </div>
@@ -42,4 +48,9 @@ class Shell extends React.Component {
     )}
 }
 
-export default Shell;
+function connectState(state) {
+  return {
+    getStarCount: () => getStarredSchools(state.school).length
+  };
+}
+export default connect(connectState)(Shell);

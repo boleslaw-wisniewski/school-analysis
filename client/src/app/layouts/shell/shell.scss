@@ -7,4 +7,16 @@
   .shell-content {
     padding: 50px 15px;
   }
+
+  .favorites-count {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 20%;
+
+    text-align: center;
+    background-color: gold;
+
+    margin-left: 6px;
+  }
 }

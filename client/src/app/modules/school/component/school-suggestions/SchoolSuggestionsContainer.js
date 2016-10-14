@@ -5,9 +5,9 @@ import Fuse from 'fuse.js';
 import 'styles/suggestions.scss';
 import './schoolsuggestions.scss';
 
-import { getSchoolNames, fetchSchoolsAction, receiveSchoolsAction, selectSchoolAction } from '../school.store';
-import { isEmpty } from '../../../store/StoreStatus';
-import { fetchSchools, fetchSchoolByDBN } from '../school.service';
+import { getSchoolNames, fetchSchoolsAction, receiveSchoolsAction, selectSchoolAction } from '../../school.store';
+import { isEmpty } from '../../../../store/StoreStatus';
+import { fetchSchools, fetchSchoolByDBN } from '../../school.service';
 
 const initialState = {
   inputValue: '',

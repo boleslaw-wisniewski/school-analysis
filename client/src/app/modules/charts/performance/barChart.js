@@ -40,7 +40,6 @@ class BarChart {
   }
 
   render() {
-    console.log('data', this.data);
 
     //margins
     const
@@ -49,8 +48,9 @@ class BarChart {
       top_margin = 30,
       bottom_margin = 0;
 
-    const svg = this.getSvg();
-
+    //TODO
+    /*
+     const svg = this.getSvg();
     var bars = svg.selectAll("g.bar")
       .data(this.data)
       .enter()
@@ -78,9 +78,9 @@ class BarChart {
       .attr("text-anchor", "right")
       .text(function(d) {
         return d.label;
-      });
+      });*/
 
-    /*this.ele.innerHTML = `
+    this.ele.innerHTML = `
       <svg class="chart" width="200" height="50" aria-labelledby="title desc" role="img">
           <title id="title">A bar chart showing information</title>
           <desc id="desc">4 apples; 8 bananas; 15 kiwis; 16 oranges; 23 lemons</desc>
@@ -92,7 +92,7 @@ class BarChart {
             <rect width="80" height="19" y="20"></rect>
             <text x="85" y="28" dy=".35em">English</text>
           </g>
-        </svg>`;*/
+        </svg>`;
   }
 
 

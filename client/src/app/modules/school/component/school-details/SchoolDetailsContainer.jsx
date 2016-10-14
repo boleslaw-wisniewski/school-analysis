@@ -1,15 +1,14 @@
 import { connect } from 'react-redux';
-import { getSelectedSchools, unselectSchoolAction } from '../../school.store.js';
 
+import { getSelectedSchools } from '../../school.store.js';
 import SchoolDetails from './SchoolDetails';
 
 class SchoolDetailsContainer extends React.Component {
 
   render() {
-    const { selectedSchools, unselectSchoolAction } = this.props;
+    const { selectedSchools } = this.props;
     const renderedSchools = selectedSchools.map(school => {
-
-      return <SchoolDetails key={school.DBN} onChange={unselectSchoolAction} {...school} />
+      return <SchoolDetails key={school.DBN} details={school} />
     });
 
     return (
@@ -25,11 +24,5 @@ function connectState(state) {
   };
 }
 
-function connectDispatch(dispatch) {
-  return {
-    unselectSchoolAction: (DBN) => dispatch(unselectSchoolAction(DBN))
-  }
-}
-
-export default connect(connectState, connectDispatch)(SchoolDetailsContainer)
+export default connect(connectState)(SchoolDetailsContainer)
 

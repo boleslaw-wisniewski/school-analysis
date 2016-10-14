@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SchoolSuggestionsContainer from '../../school/component/SchoolSuggestionsContainer';
+import SchoolSuggestionsContainer from '../../school/component/school-suggestions/SchoolSuggestionsContainer';
 import SchoolDetailsContainer from '../../school/component/school-details/SchoolDetailsContainer.jsx';
 
 import './home.scss';

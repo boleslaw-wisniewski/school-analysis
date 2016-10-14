@@ -1,4 +1,4 @@
-@import "../../../styles/variables.scss";
+@import "../../../../styles/variables";
 
 div.school-suggestions-container {
   display: flex;
@@ -8,19 +8,20 @@ div.school-suggestions-container {
   .react-autosuggest__container {
     position: absolute;
 
-    @media (max-width: $screen-xs-min) {
-      width: 80%;
-    }
-
-    @media (min-width: $screen-xs-min) {
-      width: $screen-xs-min * 0.8;
+    @media (max-width: $screen-sm-min) {
+      width: 100%;
+      padding-left: 30px;
+      padding-right: 30px;
     }
 
     @media (min-width: $screen-sm-min) {
-      width: $screen-sm-min * 0.8;
+      width: 690px;
     }
     @media (min-width: $screen-md-min) {
-      width: $screen-md-min * 0.8;
+      width: 910px;
+    }
+    @media (min-width: $screen-lg-min) {
+      width: 1110px;
     }
   }
 

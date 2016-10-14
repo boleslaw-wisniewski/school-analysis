@@ -1,8 +1,13 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { has, keyBy, uniq } from 'lodash';
+
 import D3Chart from 'modules/charts/D3Chart';
 import demoGraphicPieChart from 'modules/charts/demographic/PieChart';
 import performanceBarChart from 'modules/charts/performance/BarChart';
+
+import { getStarredSchools, unselectSchoolAction, starSchoolAction, unstarSchoolAction } from '../../school.store';
+import { starSchool, unstarSchool } from '../../school.service';
 
 import './schooldetails.scss';
 
@@ -22,11 +27,11 @@ class SchoolDetails extends Component {
   }
 
   renderPerformance() {
-    if (!this.props.performance) {
+    if (!this.props.details.performance) {
       return;
     }
 
-    const { performance: { english, math } } = this.props;
+    const { performance: { english, math } } = this.props.details;
     let englishData = {}, mathData = {};
     if (has(english, 'nonDisabled.length') && english.nonDisabled.length > 0) {
       englishData = keyBy(english.nonDisabled, (d) => d.grade);
@@ -55,21 +60,31 @@ class SchoolDetails extends Component {
     });
   }
 
-  removeSchool = () => {
-    const { onChange, DBN } = this.props;
-    onChange(DBN);
-  };
+  renderActions() {
+    const { getStarredSchools, details: {DBN}, unselectSchoolAction, starToggleAction } = this.props;
+
+    const saved = getStarredSchools().some(s => s === DBN);
+    return (
+      <div className="school-detail-actions">
+        <div className={`school-detail-action glyphicon glyphicon-star ${saved ? 'starred-school' : ''}`} onClick={() => starToggleAction(DBN, saved)}></div>
+        <div className="school-detail-action glyphicon glyphicon-remove-circle" onClick={() => unselectSchoolAction(DBN)}></div>
+      </div>
+    );
+
+    return actions;
+  }
 
   render() {
-    console.log('details', this.props);
-    const { schoolName, DBN, gradeType, grades, district, address, demographic, performance } = this.props;
+    const { schoolName, DBN, gradeType, grades, district, address, demographic, performance } = this.props.details;
 
     return (
       <div className="school-detail panel panel-default">
         <div className="panel-heading">
           <div className="panel-title">
-            <div className="">{schoolName}</div>
-            <div className="school-detail-remove" onClick={this.removeSchool}>remove</div>
+            <div className="">
+              {schoolName}
+              {this.renderActions()}
+            </div>
             <div className="panel-subtitle">
               <span className="school-detail-type">{gradeType}</span>
               <small>{this.renderGrades(grades)}</small>
@@ -105,4 +120,26 @@ class SchoolDetails extends Component {
 
 }
 
-export default SchoolDetails;
+function connectState(state) {
+  return {
+    getStarredSchools: () => getStarredSchools(state.school)
+  };
+}
+
+function connectDispatch(dispatch) {
+  return {
+    unselectSchoolAction: (DBN) => dispatch(unselectSchoolAction(DBN)),
+
+    starToggleAction: (DBN, saved) => {
+      if (saved) {
+        unstarSchool(DBN);
+        dispatch(unstarSchoolAction(DBN));
+      } else {
+        starSchool(DBN);
+        dispatch(starSchoolAction(DBN));
+      }
+    }
+  }
+}
+
+export default connect(connectState, connectDispatch)(SchoolDetails);

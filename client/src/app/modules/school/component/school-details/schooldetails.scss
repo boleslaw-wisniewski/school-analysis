@@ -4,9 +4,22 @@
 
 }
 
-.school-detail-remove {
+.school-detail-actions {
+  display: inline-block;
   float: right;
+}
+.school-detail-action {
   display: inline;
+  margin-left: 5px;
+  color: darkgrey;
+
+  &.starred-school {
+    color: gold;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .school-detail-general-info {
