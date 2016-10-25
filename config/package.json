@@ -1,9 +1,6 @@
 {
   "name": "school-analysis-config",
   "main": "index.js",
-  "dependencies": {
-    "ip": "^1.1.2"
-  },
   "babel": {
     "presets": [
       "es2015-node6"
