@@ -16,7 +16,6 @@ install [node](https://nodejs.org/en/download/)
 Unzip data/nyc.db.json.tar.gz into the same directory.
 
 ```
-npm install webpack -g
 npm install
 
 cd client
