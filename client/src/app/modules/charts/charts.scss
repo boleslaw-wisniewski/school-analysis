@@ -1,0 +1,12 @@
+$color-category-purple: #756bb1;
+
+@mixin category-colors($prefix, $primary_color, $count) {
+  @for $i from 0 through $count - 1 {
+    .#{$prefix}-#{$i+1} {
+      fill: lighten($primary_color, $i * 40/$count * 1%)
+    }
+  }
+}
+
+@include category-colors('category-color-p', $color-category-purple, 4);
+

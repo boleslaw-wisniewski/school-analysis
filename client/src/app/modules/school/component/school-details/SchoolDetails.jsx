@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { has, keyBy, uniq } from 'lodash';
 
 import D3Chart from 'modules/charts/D3Chart';
 import demoGraphicPieChart from 'modules/charts/demographic/PieChart';
-import performanceBarChart from 'modules/charts/performance/BarChart';
+import performanceChart from 'modules/charts/performance/StackedBarGraph';
+import { getYearAvgPerformance } from 'modules/charts/performance/performance.service';
 
 import { getStarredSchools, unselectSchoolAction, starSchoolAction, unstarSchoolAction } from '../../school.store';
 import { starSchool, unstarSchool } from '../../school.service';
@@ -27,37 +27,17 @@ class SchoolDetails extends Component {
   }
 
   renderPerformance() {
+    console.log('perf', this.props.details)
     if (!this.props.details.performance) {
       return;
     }
 
-    const { performance: { english, math } } = this.props.details;
-    let englishData = {}, mathData = {};
-    if (has(english, 'nonDisabled.length') && english.nonDisabled.length > 0) {
-      englishData = keyBy(english.nonDisabled, (d) => d.grade);
-    } else if (has(english, 'total.length') && english.total.length > 0) {
-      englishData = keyBy(english.total, (d) => d.grade);
-    }
-    if (has(math, 'nonDisabled.length') && math.nonDisabled.length > 0) {
-      mathData = keyBy(math.nonDisabled, (d) => d.grade);
-    } else if (has(math, 'total.length') && math.total.length > 0) {
-      mathData = keyBy(math.total, (d) => d.grade);
-    }
+    const data = getYearAvgPerformance(this.props.details);
 
-    const keys = uniq(Object.keys(englishData).concat(Object.keys(mathData)));
-    const data = keys.map(grade => ({
-      grade,
-      math: mathData[grade] || [],
-      english: englishData[grade] || []
-    }));
-
-    const opts = { width: 200, height: 50 };
-    return data.map(d => {
-      return (
-        <D3Chart key={`performance-chart-${d.grade}`}
-                 Chart={performanceBarChart} data={d} chartOpts={ opts } />
-      )
-    });
+    const opts = { width: 200, height: 100 };
+    return (
+      <D3Chart Chart={performanceChart} data={data} chartOpts={ opts } />
+    )
   }
 
   renderActions() {
@@ -99,11 +79,6 @@ class SchoolDetails extends Component {
           <div className="school-detail-demographics-container col-lg-5">
             <h5>Demographics</h5>
             <div className="school-detail-demographics">
-              <D3Chart Chart={demoGraphicPieChart}/>
-              <D3Chart Chart={demoGraphicPieChart}/>
-              <D3Chart Chart={demoGraphicPieChart}/>
-              <D3Chart Chart={demoGraphicPieChart}/>
-              <D3Chart Chart={demoGraphicPieChart}/>
               <D3Chart Chart={demoGraphicPieChart}/>
             </div>
           </div>

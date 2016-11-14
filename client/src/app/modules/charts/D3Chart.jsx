@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import './charts.scss';
+
 class D3Chart extends Component {
 
   constructor() {
